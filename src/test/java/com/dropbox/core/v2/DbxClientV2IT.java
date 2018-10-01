@@ -1,19 +1,10 @@
 package com.dropbox.core.v2;
 
-import static org.testng.Assert.*;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Date;
-import java.util.Locale;
-
-import com.dropbox.core.util.IOUtil.ProgressListener;
-import org.testng.annotations.Test;
-
 import com.dropbox.core.BadRequestException;
 import com.dropbox.core.DbxApiException;
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.ITUtil;
+import com.dropbox.core.util.IOUtil.ProgressListener;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.GetMetadataError;
 import com.dropbox.core.v2.files.GetMetadataErrorException;
@@ -22,6 +13,19 @@ import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.files.WriteMode;
 import com.dropbox.core.v2.users.BasicAccount;
 import com.dropbox.core.v2.users.FullAccount;
+
+import org.testng.annotations.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Date;
+import java.util.Locale;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class DbxClientV2IT {
     @Test
@@ -115,7 +119,7 @@ public class DbxClientV2IT {
         assertEquals(actualResult, metadata);
         assertEquals(actualContents, contents);
 
-        Metadata deleted = client.files().delete(path);
+        Metadata deleted = client.files().deleteV2(path).getMetadata();
         assertEquals(deleted, metadata);
     }
 

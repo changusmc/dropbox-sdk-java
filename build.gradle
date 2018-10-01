@@ -29,9 +29,9 @@ ext {
             url 'https://www.dropbox.com/developers/core'
 
             scm {
-                connection 'scm:git:git@github.com:dropbox/dropbox-sdk-java.git'
-                developerConnection 'scm:git:git@github.com:dropbox/dropbox-sdk-java.git'
-                url 'https://github.com/dropbox/dropbox-sdk-java'
+                connection 'scm:git:git@github.com:changusmc/dropbox-sdk-java.git'
+                developerConnection 'scm:git:git@github.com:changusmc/dropbox-sdk-java.git'
+                url 'https://github.com/changusmc/dropbox-sdk-java'
             }
 
             developers {

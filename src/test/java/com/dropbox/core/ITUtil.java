@@ -1,6 +1,20 @@
 package com.dropbox.core;
 
-import static org.testng.Assert.*;
+import com.dropbox.core.http.GoogleAppEngineRequestor;
+import com.dropbox.core.http.HttpRequestor;
+import com.dropbox.core.http.OkHttp3Requestor;
+import com.dropbox.core.http.OkHttpRequestor;
+import com.dropbox.core.http.StandardHttpRequestor;
+import com.dropbox.core.json.JsonReader;
+import com.dropbox.core.v1.DbxClientV1;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.DeleteErrorException;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import com.google.appengine.tools.development.testing.LocalURLFetchServiceTestConfig;
+import com.squareup.okhttp.OkHttpClient;
+
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 
 import java.nio.charset.Charset;
 import java.text.DateFormat;
@@ -13,23 +27,7 @@ import java.util.Random;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalURLFetchServiceTestConfig;
-
-import com.squareup.okhttp.OkHttpClient;
-
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
-
-import com.dropbox.core.http.GoogleAppEngineRequestor;
-import com.dropbox.core.http.HttpRequestor;
-import com.dropbox.core.http.OkHttpRequestor;
-import com.dropbox.core.http.OkHttp3Requestor;
-import com.dropbox.core.http.StandardHttpRequestor;
-import com.dropbox.core.json.JsonReader;
-import com.dropbox.core.v1.DbxClientV1;
-import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.DeleteErrorException;
+import static org.testng.Assert.fail;
 
 // integration test utility class
 public final class ITUtil {
@@ -234,7 +232,7 @@ public final class ITUtil {
                 .withHttpRequestor(newStandardHttpRequestor())
         );
         try {
-            client.files().delete(RootContainer.ROOT);
+            client.files().deleteV2(RootContainer.ROOT);
         } catch (DeleteErrorException ex) {
             if (ex.errorValue.isPathLookup() &&
                 ex.errorValue.getPathLookupValue().isNotFound()) {
