@@ -172,7 +172,7 @@ def getAuthInfoFile() {
 }
 
 
-task integrationTest(type: Test) {
+tasks.register("integrationTest", Test) {
     description 'Runs integration tests against Production or Dev servers.'
 
     useTestNG()
@@ -251,19 +251,22 @@ jar {
     }
 }
 
-task jarWithoutOsgi(type: Jar, dependsOn: classes) {
+tasks.register("jarWithoutOsgi", Jar) {
     classifier 'withoutOsgi'
     from sourceSets.main.output
+    it.dependsOn(classes)
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
+tasks.register("sourcesJar", Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
+    it.dependsOn(classes)
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+tasks.register("javadocJar", Jar) {
     classifier = 'javadoc'
     from javadoc.destinationDir
+    it.dependsOn(javadoc)
 }
 
 artifacts {

@@ -1,3 +1,5 @@
+import groovy.json.JsonBuilder
+
 apply plugin: 'java'
 
 class StoneConfig {
@@ -120,7 +122,7 @@ def runStoneGenerator(List<StoneConfig> configs,
 // add generateStone task for all source sets (e.g. generateTestStone, etc)
 project.sourceSets.all { SourceSet sourceSet ->
     def taskName = "main" == sourceSet.name ? "generateStone" : "generate${sourceSet.name.capitalize()}Stone"
-    task "${taskName}" {
+    tasks.register("${taskName}") {
         description "Generate Stone Java source files for ${sourceSet.name}."
 
         def specDirPropName = "com.dropbox.api.${sourceSet.name}.specDir".toString()
@@ -154,7 +156,9 @@ project.sourceSets.all { SourceSet sourceSet ->
 
     sourceSet.java.srcDir project.tasks."${taskName}".outputDir + "/src"
     Task compile = project.tasks.getByName(sourceSet.getCompileTaskName("java"))
-    compile.dependsOn project.tasks."${taskName}"
+    compile.configure {
+        it.dependsOn project.tasks."${taskName}"
+    }
 }
 
 
